@@ -11,5 +11,6 @@ data class BodyDto(
     val moons: List<MoonDto>? = null,
     val mass: MassDto? = null,
     val gravity: Double? = null,
-    val aroundPlanet: AroundPlanetDto? = null
+    val aroundPlanet: AroundPlanetDto? = null,
+    val bodyType: String? = null,
 )

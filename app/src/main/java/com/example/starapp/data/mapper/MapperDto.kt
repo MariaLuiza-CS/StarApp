@@ -30,6 +30,7 @@ fun BodyDto.toCelestialBody(): CelestialBody {
                 planet = it.planet,
                 rel = it.rel
             )
-        }
+        },
+        bodyType = bodyType
     )
 }

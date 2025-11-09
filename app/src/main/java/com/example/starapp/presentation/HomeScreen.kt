@@ -1,16 +1,18 @@
 package com.example.starapp.presentation
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -19,104 +21,123 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.starapp.domain.model.CelestialBody
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.example.starapp.R
+import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeScreenViewModel,
-    onBodyClick: (CelestialBody) -> Unit = {}
+    navHostController: NavHostController,
+    viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
 
+    val context = LocalContext
     val state by viewModel.uiState.collectAsState()
 
-    // Quando a tela entra, dispara o carregamento
     LaunchedEffect(Unit) {
         viewModel.onIntent(HomeScreenIntent.Load)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Sistema Solar") }
+    when {
+        state.isLoading -> {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+
+        state.error != null -> {
+            Text(
+                text = "Erro: ${state.error}",
+                color = Color.Red,
+                modifier = Modifier.padding(16.dp)
             )
         }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-        ) {
-            when {
-                state.isLoading -> {
-                    // Loading
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
 
-                state.error != null -> {
-                    // Erro
-                    Text(
-                        text = "Erro: ${state.error}",
-                        modifier = Modifier.align(Alignment.Center),
-                        color = MaterialTheme.colorScheme.error
+        else -> {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = { Text("Star App") },
+                        colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.secondary)
                     )
-                }
-
-                else -> {
-                    // Lista de corpos
-                    LazyColumn(
+                },
+                content = { paddingValues ->
+                    Column(
                         modifier = Modifier
+                            .padding(paddingValues)
                             .fillMaxSize()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(
-                            state.celestialBodies,
-                            key = { it.id ?: it.name ?: it.englishName ?: "" }
-                        ) { body ->
-                            CelestialBodyItem(
-                                body = body,
-                                onClick = { onBodyClick(body) }
-                            )
+                        Card(
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(12.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.img_moon),
+                                    contentDescription = "",
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .size(92.dp)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(Color(0xFFEFEFEF))
+                                )
+
+                                Spacer(modifier = Modifier.width(12.dp))
+
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(end = 8.dp)
+                                ) {
+                                    Text(
+                                        text = "testestes title",
+                                        style = MaterialTheme.typography.titleMedium.copy(
+                                            fontWeight = FontWeight.SemiBold
+                                        ),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+
+                                    Spacer(modifier = Modifier.height(6.dp))
+
+                                    Text(
+                                        text = "descritpinod dhsadjashdj",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            }
                         }
                     }
                 }
-            }
+            )
         }
     }
 }
 
-@Composable
-fun CelestialBodyItem(
-    body: CelestialBody,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = body.name ?: body.englishName ?: "Sem nome",
-                style = MaterialTheme.typography.titleLarge
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Tipo: ${body.aroundPlanet ?: "Desconhecido"}")
-            body.gravity?.let {
-                Text(text = "Gravidade: %.2f m/s²".format(it))
-            }
-            Text(text = "É planeta: ${body.isPlanet}")
-        }
-    }
-}
+@Serializable
+object HomeScreen

@@ -1,5 +1,6 @@
 package com.example.starapp.data.remote.network
 
+import com.example.starapp.BuildConfig
 import com.example.starapp.data.remote.api.SolarSystemApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -9,14 +10,16 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
-object NetworkModule {
+object RetrofitConfig {
 
     private const val BASE_URL = "https://api.le-systeme-solaire.net/rest/"
 
     fun providerApi(): SolarSystemApi {
+        val apiKey = BuildConfig.API_KEY
+
         val authInterceptor = Interceptor { chain ->
             val request = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer ${BuildConfig.API_KEY}")
+                .addHeader("Authorization", "Bearer $apiKey")
                 .build()
             chain.proceed(request)
         }

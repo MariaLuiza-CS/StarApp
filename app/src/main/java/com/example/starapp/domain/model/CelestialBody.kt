@@ -8,5 +8,6 @@ data class CelestialBody(
     val moons: List<Moon>? = null,
     val mass: Mass? = null,
     val gravity: Double? = null,
-    val aroundPlanet: AroundPlanet? = null
+    val aroundPlanet: AroundPlanet? = null,
+    val bodyType: String? = null,
 )
