@@ -84,51 +84,100 @@ fun HomeScreen(
                             .padding(paddingValues)
                             .fillMaxSize()
                     ) {
-                        Card(
-                            colors = CardDefaults.cardColors(containerColor = Color.White),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                            shape = RoundedCornerShape(12.dp)
+                        Column(
+                            modifier = Modifier
+                                .padding(20.dp)
+                                .fillMaxSize()
                         ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(12.dp),
-                                verticalAlignment = Alignment.CenterVertically
+                            Card(
+                                colors = CardDefaults.cardColors(containerColor = Color.White),
+                                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                                shape = RoundedCornerShape(12.dp)
                             ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.img_moon),
-                                    contentDescription = "",
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .size(92.dp)
-                                        .clip(RoundedCornerShape(10.dp))
-                                        .background(Color(0xFFEFEFEF))
-                                )
-
-                                Spacer(modifier = Modifier.width(12.dp))
-
-                                Column(
+                                Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(end = 8.dp)
+                                        .padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Text(
-                                        text = "testestes title",
-                                        style = MaterialTheme.typography.titleMedium.copy(
-                                            fontWeight = FontWeight.SemiBold
-                                        ),
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
+                                    Image(
+                                        painter = painterResource(id = R.drawable.img_moon),
+                                        contentDescription = "",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .size(92.dp)
+                                            .clip(RoundedCornerShape(10.dp))
                                     )
 
-                                    Spacer(modifier = Modifier.height(6.dp))
+                                    Spacer(modifier = Modifier.width(12.dp))
 
-                                    Text(
-                                        text = "descritpinod dhsadjashdj",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        maxLines = 2,
-                                        overflow = TextOverflow.Ellipsis
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(end = 8.dp)
+                                    ) {
+                                        Text(
+                                            text = "Moon",
+                                            style = MaterialTheme.typography.titleMedium.copy(
+                                                fontWeight = FontWeight.SemiBold
+                                            ),
+                                            maxLines = 1
+                                        )
+
+                                        Spacer(modifier = Modifier.height(6.dp))
+
+                                        Text(
+                                            text = "Naturally-formed bodies that orbit planets are called moons, " +
+                                                    "or planetary satellites.",
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                    }
+                                }
+                            }
+
+                            Card(
+                                colors = CardDefaults.cardColors(containerColor = Color.White),
+                                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.img_earth),
+                                        contentDescription = "",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .size(92.dp)
+                                            .clip(RoundedCornerShape(10.dp))
                                     )
+
+                                    Spacer(modifier = Modifier.width(12.dp))
+
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(end = 8.dp)
+                                    ) {
+                                        Text(
+                                            text = "Planet",
+                                            style = MaterialTheme.typography.titleMedium.copy(
+                                                fontWeight = FontWeight.SemiBold
+                                            ),
+                                            maxLines = 1
+                                        )
+
+                                        Spacer(modifier = Modifier.height(6.dp))
+
+                                        Text(
+                                            text = "Naturally-formed bodies that orbit planets are called moons, " +
+                                                    "or planetary satellites.",
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                    }
                                 }
                             }
                         }
