@@ -2,7 +2,6 @@ package com.example.starapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Gold80 = Color(0xFFFFC100)
 val Orange80 = Color(0xFFd45113)
 val Red80 = Color(0xFFFF0000)
 val DarkBg = Color(0xFF562c2c)
